@@ -64,8 +64,8 @@ class Command(BaseCommand):
                         user, e))
 
         self.stdout.write(
-            'Succesfully sent %d password reset emails, %d emails failed',
-            len(email_success_users), len(email_fail_users))
+            'Succesfully sent %d password reset emails, %d emails failed' % (
+                len(email_success_users), len(email_fail_users)))
 
         # Disable existing passwords, but only for the accounts for which
         # the password reset email was succesful
