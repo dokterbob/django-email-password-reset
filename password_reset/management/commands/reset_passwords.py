@@ -57,11 +57,14 @@ class Command(BaseCommand):
 
             try:
                 user.email_user(subject, message)
+                email_success_users.append(user)
 
             except Exception, e:
                 self.stderr.write(
                     'Error sending password reset email for %s: %s' % (
                         user, e))
+
+                email_fail_users.append(user)
 
         self.stdout.write(
             'Succesfully sent %d password reset emails, %d emails failed' % (
