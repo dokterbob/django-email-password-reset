@@ -52,7 +52,7 @@ class Command(BaseCommand):
                 'protocol': 'https' if use_https else 'http',
             })
 
-            subject = email_subject_template.render(ctx)
+            subject = email_subject_template.render(ctx).strip()
             message = email_template.render(ctx)
 
             try:
