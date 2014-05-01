@@ -18,3 +18,7 @@ Usage
 5. Disable all passwords and send reset emails to all users with management command::
 
        ./manage.py reset_passwords
+
+Compatibility
+-------------
+This package is currently only tested with Django 1.6 and Python 2.7.
