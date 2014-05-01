@@ -1,3 +1,5 @@
+from optparse import make_option
+
 from django.core.management.base import BaseCommand
 
 from django.template import Context
@@ -10,9 +12,19 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import Site
 
+from django.test.utils import override_settings
+
 
 class Command(BaseCommand):
     help = 'Disable all passwords and send reset emails to all users.'
+
+    option_list = BaseCommand.option_list + (
+        make_option(
+            '-n', '--dry-run',
+            action='store_true', dest='dry_run', default=False,
+            help='Dry run: send emails to console, don\'t deactivate passwords.'
+        ),
+    )
 
     def handle(self, *args, **options):
         # Options
@@ -56,7 +68,15 @@ class Command(BaseCommand):
             message = email_template.render(ctx)
 
             try:
-                user.email_user(subject, message)
+                if options['dry_run']:
+                    # Force console email backend
+                    with override_settings(
+                        EMAIL_BACKEND='django.core.mail.backends.console.EmailBackend'
+                    ):
+                        user.email_user(subject, message)
+                else:
+                    user.email_user(subject, message)
+
                 email_success_users.append(user)
 
             except Exception, e:
@@ -66,11 +86,6 @@ class Command(BaseCommand):
 
                 email_fail_users.append(user)
 
-        # Disable existing passwords, but only for the accounts for which
-        # the password reset email was succesful
-        for user in email_success_users:
-            user.set_unusable_password()
-
         self.stdout.write(
             'Succesfully sent %d password reset emails, %d emails failed, '
             'skipped %d users without email addresses' % (
@@ -78,3 +93,13 @@ class Command(BaseCommand):
                 user_model.objects.filter(email='').count()
             )
         )
+
+        # Disable existing passwords, but only for the accounts for which
+        # the password reset email was succesful
+        if options['dry_run']:
+            self.stdout.write('Dry-run; not deactivating passwords.')
+        else:
+            self.stdout.write('Deactivating passwords for emailed users.')
+
+            for user in email_success_users:
+                user.set_unusable_password()
