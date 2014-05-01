@@ -27,7 +27,7 @@ class Command(BaseCommand):
         # Send password reset emails first
         email_success_users = []
         email_fail_users = []
-        for user in user_model.objects.all():
+        for user in user_model.objects.exclude(email=''):
            # Make sure that no email is sent to a user that actually has
             # a password marked as unusable
             if not user.has_usable_password():
@@ -66,11 +66,15 @@ class Command(BaseCommand):
 
                 email_fail_users.append(user)
 
-        self.stdout.write(
-            'Succesfully sent %d password reset emails, %d emails failed' % (
-                len(email_success_users), len(email_fail_users)))
-
         # Disable existing passwords, but only for the accounts for which
         # the password reset email was succesful
         for user in email_success_users:
             user.set_unusable_password()
+
+        self.stdout.write(
+            'Succesfully sent %d password reset emails, %d emails failed, '
+            'skipped %d users without email addresses' % (
+                len(email_success_users), len(email_fail_users),
+                user_model.objects.filter(email='').count()
+            )
+        )
