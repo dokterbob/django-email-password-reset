@@ -7,7 +7,7 @@ except:
 
 setup(
     name='django-email-password-reset',
-    version='0.1',
+    version='0.1.1',
     description='Minimalist app disabling all passwords and sending password reset emails.',
     long_description=README,
     license='BSD',
