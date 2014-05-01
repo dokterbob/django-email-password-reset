@@ -1,6 +1,13 @@
 django-email-password-reset
 ===========================
 
+.. image:: https://badge.fury.io/py/django-email-password-reset.png
+    :target: http://badge.fury.io/py/django-email-password-reset
+
+.. image:: https://pypip.in/d/django-email-password-reset/badge.png
+        :target: https://crate.io/packages/django-email-password-reset?version=latest
+
+
 Minimalist app disabling all passwords and sending password reset emails.
 
 Usage
