@@ -1,0 +1,7 @@
+# Text files
+include README.rst
+include LICENSE
+include COPYRIGHT
+
+# Include templates
+recursive-include password_reset/templates *
