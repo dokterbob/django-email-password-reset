@@ -7,6 +7,10 @@ django-email-password-reset
 .. image:: https://pypip.in/d/django-email-password-reset/badge.png
         :target: https://crate.io/packages/django-email-password-reset?version=latest
 
+.. image:: https://landscape.io/github/dokterbob/django-email-password-reset/master/landscape.png
+   :target: https://landscape.io/github/dokterbob/django-email-password-reset/master
+   :alt: Code Health
+
 
 Minimalist app disabling all passwords and sending password reset emails.
 
