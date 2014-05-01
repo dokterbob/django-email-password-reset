@@ -6,14 +6,14 @@ except:
     README = None
 
 setup(
-    name='django-password-reset',
+    name='django-email-password-reset',
     version='0.1',
     description='Minimalist app disabling all passwords and sending password reset emails.',
     long_description=README,
     license='BSD',
     author='Mathijs de Bruin',
     author_email='mathijs@mathijsfietst.nl',
-    url='https://github.com/dokterbob/django-password-reset/',
+    url='https://github.com/dokterbob/django-email-password-reset/',
     packages=find_packages(),
     include_package_data=True,
     classifiers=(
